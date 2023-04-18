@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+  <link rel="stylesheet" href="{% static 'users/login.css' %}">
+  <script src="{% static 'users/login.js' %}"></script>
+</head>
+<body>
+	<h1>Login</h1>
+	{% if error_message %}
+		<p>{{ error_message }}</p>
+	{% endif %}
+	<form method="post">
+		{% csrf_token %}
+		<label for="username">Email:</label>
+		<input type="email" id="username" name="username" required><br><br>
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" required><br><br>
+		<input type="checkbox" id="remember_me" name="remember_me">
+		<label for="remember_me">Remember me</label><br><br>
+		<input type="submit" value="Login">
+	</form>
+</body>
+</html>
