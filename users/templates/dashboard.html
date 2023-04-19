@@ -4,41 +4,52 @@
   <head>
     <meta charset="UTF-8">
     <title>Transactions</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'transactions.css' %}">
+    <link rel="stylesheet" href="/docs/4.3/assets/css/docs.min.css">
   </head>
   <body>
-    <h1>Transactions</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Description</th>
-          <th>Amount</th>
-          <th>Category</th>
-          <th>Payment Method</th>
-          <th>Reference Number</th>
-          <th>Status</th>
-          <th>Attachments</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for transaction in transactions %}
+    
+    <h1>Transaction List</h1>
+    <table id="transactionTable">
+
+    <thead>
+      <tr id="transactionRow{{ transaction.id }}">
+
+        <th>Date</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Payment Method</th>
+        <th>Reference Number</th>
+        <th>Status</th>
+        <th>Attachment</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for transaction in transactions %}
         <tr>
           <td>{{ transaction.date }}</td>
           <td>{{ transaction.description }}</td>
-          <td>{{ transaction.amount }}</td>
           <td>{{ transaction.category }}</td>
+          <td>{{ transaction.amount }}</td>
           <td>{{ transaction.payment_method }}</td>
           <td>{{ transaction.reference_number }}</td>
           <td>{{ transaction.status }}</td>
-          <td>{% if transaction.attachments %}
-            <a href="{{ transaction.attachments.url }}">Download</a>
+          <td>
+            {% if transaction.attachments %}
+              <a href="{{ transaction.attachments.url }}" download="{{ transaction.attachments.name }}">{{ transaction.attachments.name }}</a>
+            {% else %}
+              No attachment
             {% endif %}
           </td>
         </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    <script src="{% static 'transactions.js' %}"></script>
-  </body>
+      {% empty %}
+        <tr>
+          <td colspan="8">No transactions found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <script src="{% static 'users/dashboard.js' %}"></script>
+</body>
 </html>
+

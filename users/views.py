@@ -10,6 +10,7 @@ from .forms import RegistrationForm
 from django.utils import timezone
 from django.http import HttpResponse
 
+
 def login_view(request):
     if request.method == 'POST':
         print(request.POST)
@@ -23,12 +24,13 @@ def login_view(request):
             login(request, user)
             if not remember_me:
                 request.session.set_expiry(0)
-            return redirect('dashboard')
+            return redirect('users:dashboard')
         else:
             error_message = "Invalid username or password"
             return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html', {})
+
 
 
 def register_view(request, *args, **kwargs):
@@ -57,30 +59,6 @@ def register_view(request, *args, **kwargs):
             
     return render(request, 'registration.html', context)
         
-
-# def register(request):
-#     print(request.method)
-#     if request.method == 'POST':
-#         form = RegistrationForm(request.POST)
-#         print(form)
-#         if form.is_valid():
-#             email = form.cleaned_data.get('email')
-#             date_of_birth = form.cleaned_data.get('date_of_birth')
-#             password = form.cleaned_data.get('password1')
-#             user = MyUser.objects.create_user(email=email, date_of_birth=date_of_birth, password=password)
-#             print(user)
-#             user.bonus_expiry_date = timezone.now() + timezone.timedelta(days=30)
-#             user.save()
-#             messages.success(request, 'Your account has been created successfully!')
-#             login(request, user)
-#             return redirect('login')
-#         else:
-#             print(form.cleaned_data)
-#     else:
-        
-#         form = RegistrationForm()
-#     return render(request, 'registration.html', {'form': form})
-
 
 
 @login_required

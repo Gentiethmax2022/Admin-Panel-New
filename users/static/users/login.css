@@ -1,6 +1,8 @@
 * {
   box-sizing: border-box;
   font-size: large;
+  border: #333;
+  background-color: #393f81;
 }
 
 body,
@@ -39,6 +41,7 @@ html {
 .card-body-container {
   flex: 1;
   width: 700px;
+  border: #333;
 }
 
 .card-body {
