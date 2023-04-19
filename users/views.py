@@ -3,7 +3,12 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import Permission
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Transaction
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from .models import MyUser
+from .forms import RegistrationForm
+from django.utils import timezone
+from django.http import HttpResponse
 
 def login_view(request):
     if request.method == 'POST':
@@ -18,7 +23,7 @@ def login_view(request):
             login(request, user)
             if not remember_me:
                 request.session.set_expiry(0)
-            return redirect('home')
+            return redirect('dashboard')
         else:
             error_message = "Invalid username or password"
             return render(request, 'login.html', {'error_message': error_message})
@@ -26,15 +31,66 @@ def login_view(request):
         return render(request, 'login.html', {})
 
 
+def register_view(request, *args, **kwargs):
+    # user = request.user
+    # if user.is_authenticated:
+    #     return HttpResponse(f"You are already authenticated as {user.email}.")
+    context = {}
+    
+    if request.POST:
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get('email').lower()
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(email=email, password=raw_password)
+            login(request, user)
+            destination = kwargs.get("next")
+            if destination:
+                return redirect(destination)
+            return redirect('users:dashboard')
+        
+        else:
+            print(form.errors)
+            context['registration_form'] = form
+            print(context)
+            
+    return render(request, 'registration.html', context)
+        
+
+# def register(request):
+#     print(request.method)
+#     if request.method == 'POST':
+#         form = RegistrationForm(request.POST)
+#         print(form)
+#         if form.is_valid():
+#             email = form.cleaned_data.get('email')
+#             date_of_birth = form.cleaned_data.get('date_of_birth')
+#             password = form.cleaned_data.get('password1')
+#             user = MyUser.objects.create_user(email=email, date_of_birth=date_of_birth, password=password)
+#             print(user)
+#             user.bonus_expiry_date = timezone.now() + timezone.timedelta(days=30)
+#             user.save()
+#             messages.success(request, 'Your account has been created successfully!')
+#             login(request, user)
+#             return redirect('login')
+#         else:
+#             print(form.cleaned_data)
+#     else:
+        
+#         form = RegistrationForm()
+#     return render(request, 'registration.html', {'form': form})
+
+
 
 @login_required
-def home_view(request):
+def dashboard_view(request):
     if request.user.has_perm('myapp.view_all_transactions'):
         transactions = Transaction.objects.all()
     else:
         transactions = Transaction.objects.filter(payer=request.user)
     
-    return render(request, 'home.html', {'transactions': transactions})
+    return render(request, 'dashboard.html', {'transactions': transactions})
 
 
 

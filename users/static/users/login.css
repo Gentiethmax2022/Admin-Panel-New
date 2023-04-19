@@ -1,0 +1,169 @@
+* {
+  box-sizing: border-box;
+  font-size: large;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.card {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: row;
+  border: none;
+}
+
+.card img {
+  border-radius: 0;
+  width: 175%;
+  height: 700px;
+  object-fit: cover;
+  margin-left: 0px;
+  margin-bottom: 30px;
+}
+
+.card-body-container {
+  flex: 1;
+  width: 700px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: row;
+  align-items: right;
+  justify-content: right;
+  padding: 4rem;
+  background-color: #fff;
+  margin-right: 20px;
+  border: #333;
+  border-width: 20px;
+  width: 500px;
+  margin-top: 0px;
+  padding-top: 20px;
+}
+
+
+.form-outline {
+  position: relative;
+  margin-bottom: 2rem;
+  margin-top: 50px;
+}
+
+.form-outline input {
+  width: 100%;
+  height: 50px;
+  border-radius: 2rem;
+  border: #333;
+  padding: 1rem;
+  font-size: 1.1rem;
+  margin-top: 40px;
+
+}
+
+.form-outline label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: #666;
+  font-size: 1.2rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-outline input:focus + label,
+.form-outline input:not(:placeholder-shown) + label {
+  width: 400px;
+  top: -1.2rem;
+  left: 0.8rem;
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 50px;
+}
+
+
+.btn {
+  border-radius: 0.5rem;
+  height: 50px;
+  font-size: 1.2rem;
+}
+
+.btn-dark {
+  background-color: #393f81;
+  border: none;
+  color: #fff;
+  margin-bottom: 30px;
+  width: 150px;
+}
+
+.btn-dark:hover {
+  background-color: #4d54a4;
+  color: #fff;
+}
+
+.small {
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 50px;
+}
+
+.small a {
+  color: #999;
+  text-decoration: none;
+  border-bottom: 1px solid #999;
+}
+
+.small a:hover {
+  border-bottom: 1px solid #393f81;
+}
+
+h5 {
+  color: #393f81;
+  margin-bottom: 50px;
+  font-size: large;
+  margin-top: 50px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.text-black {
+  color: #333;
+}
+
+@media screen and (max-width: 991px) {
+  .card {
+    flex-direction: row;
+  }
+  
+  .card img {
+    border-radius: 1rem 1rem 0 0;
+    height: 100px;
+    margin-left: 20px;
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+}

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration</title>
+    <link rel="stylesheet" href="{% static 'users/registration.css' %}">
+</head>
+<body style="background-image: url('{% static 'pics/ethereum_background.jpg' %}');">
+    <div id="form-container">
+      
+        <form method="POST" action="{% url 'users:register' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="date_of_birth">Date of Birth:</label>
+                <input type="date" id="date_of_birth" name="date_of_birth" required>
+            </div>
+            <div class="form-group">
+                <label for="password1">Password:</label>
+                <input type="password" id="password1" name="password1" required>
+            </div>
+            <div class="form-group">
+                <label for="password2">Confirm Password:</label>
+                <input type="password" id="password2" name="password2" required>
+            </div>
+            <input type="submit" id="submit-button" value="Register">
+        </form>
+    </div>
+    {% for field in registration_form %}
+    <p>
+        {% for error in field.errors %}
+        <p style="color: red">{{ error }}</p>
+        {% endfor %}
+    </p>
+    {% endfor %}
+    {% if registration_form.non_field_errors %}
+    <div style="color: red">
+        <p>{{ registration_form.non_field_errors }}</p>
+    </div>
+    {% endif %}
+    <script src="{% static 'users/registration.js' %}"></script>
+    
+</body>
+</html>
+
+

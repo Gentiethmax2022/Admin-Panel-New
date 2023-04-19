@@ -1,13 +1,7 @@
 from django.db import models
-from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
-from django.utils import timezone
+from django.utils.timezone import now   
 
-
-DISCOUNT_CODE_TYPE_CHOICES = [
-    ('percent', 'Percentage-based'),
-    ('value', 'Value-based'),
-]
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, date_of_birth, password=None):
@@ -17,6 +11,8 @@ class MyUserManager(BaseUserManager):
         """
         if not email:
             raise ValueError("User must have an email address")
+        if not date_of_birth:
+            raise ValueError("User must set his date of birth")
         
         user = self.model(
             email=self.normalize_email(email),
@@ -36,25 +32,41 @@ class MyUserManager(BaseUserManager):
         """
         user = self.create_user(
             email,
-            password=password,
             date_of_birth=date_of_birth,
+            password=password,
         )
         user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
         user.save(using=self._db)
         
         return user 
     
 
+def get_profile_image_filepath(self, filename):
+    return f"profile_images/{self.pk}/{'profile_image.png'}"
+
+
+def get_default_profile_image():
+    return "default_pics/logo_1080_1080.png"
+
+
+
 class MyUser(AbstractBaseUser):
-    email = models.EmailField(max_length=255, unique=True)
+    email = models.EmailField(verbose_name="email", max_length=255, unique=True)
     date_of_birth = models.DateField()
-    first_name = models.CharField(max_length=255, blank=True)
-    last_name = models.CharField(max_length=255, blank=True)
+    first_name = models.CharField(verbose_name="first name", max_length=255, blank=True)
+    last_name = models.CharField(verbose_name="last name", max_length=255, blank=True)
+    date_joined = models.DateTimeField(verbose_name="date joined", default=now)
+    last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     balance = models.PositiveIntegerField(default=0)
-    purchase_bonus = models.TextField(blank=True, default='')
-    bonus_expiry_date = models.DateTimeField(null=True, blank=True)
+    profile_image = models.ImageField(max_length=255, upload_to=get_profile_image_filepath, null=True, blank=True, default=get_default_profile_image)
+    hide_email = models.BooleanField(default=True)
+    
     
     objects = MyUserManager()
     
@@ -72,26 +84,15 @@ class MyUser(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         return True 
     
-    @property
-    def is_staff(self):
-        """ Is the user  a member of staff 
-        Simplest possible answer is that all admin are staff """
-        return self.is_admin
+    def get_profile_image_filename(self):
+        return str(self.profile_image)[str(self.profile_image).index(f'profile_images/{self.pk}/'):]
     
-    @property
-    def has_negative_balance(self):
-        "Does the user have a negative balance"
-        return self.balance < 0
     
     @property  #type: ignore
     def has_sufficient_balance(self, payout):
         return self.balance >= payout
     
-    @property
-    def is_purchase_bonus_valid(self):
-        if self.bonus_expiry_date is not None:
-            return bool(self.purchase_bonus) and self.bonus_expiry_date > timezone.now()
-        
+
     @property
     def transactions(self):
         received_transactions = self.received_transactions.all()  #type: ignore
