@@ -48,7 +48,7 @@ def get_profile_image_filepath(self, filename):
 
 
 def get_default_profile_image():
-    return "default_pics/logo_1080_1080.png"
+    return "pics/default_pics/logo_1080_1080.png"
 
 
 
@@ -65,7 +65,6 @@ class MyUser(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     balance = models.PositiveIntegerField(default=0)
     profile_image = models.ImageField(max_length=255, upload_to=get_profile_image_filepath, null=True, blank=True, default=get_default_profile_image)
-    hide_email = models.BooleanField(default=True)
     
     
     objects = MyUserManager()

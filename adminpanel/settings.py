@@ -133,3 +133,4 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.AllowAllUsersModelBackend',
     'users.backends.CaseInsensitiveModelBackend',
 )
+

@@ -77,3 +77,11 @@ def admin_view(request):
     transactions = Transaction.objects.all()
     return render(request, 'admin.html', {'transactions': transactions})
 
+
+def view_all_transactions(request):
+    transactions = Transaction.objects.all()
+    return render(request, 'view_all_transactions.html', {'transactions': transactions})
+
+def user_profile_view(request):
+    return render(request, "user_profile.html", {})
+
