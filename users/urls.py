@@ -6,11 +6,15 @@ app_name = 'users'
 urlpatterns = [
     path('dashboard/', views.dashboard_view, name='dashboard'),
     path('login/', views.login_view, name='login'),
-    path('transactions/', views.view_all_transactions, name='view_all_transactions'),
+    path('risk_assessment/', views.risk_assessment, name='risk_assessment'),
     path('user_profile/', views.user_profile_view, name='user_profile'),
     path('register/', views.register_view, name='register'),
+    path('search_transactions/', views.search_transactions, name='search_transactions'),
+    path('reports/', views.reports, name='reports'),
+    path('new_transaction/', views.new_transaction, name='new_transaction'),
     path('admin_user/', views.admin_view, name='admin'),
 ]
+
 
 
 

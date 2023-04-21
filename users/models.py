@@ -137,13 +137,19 @@ class Transaction(models.Model):
         ('failed', 'Failed'),
     )
     
+    PAYMENET_METHOD_CHOICES = (
+        ('debit/credit card', 'Debit/Credit Card'),
+        ('blockchain wallet transfer', 'Blockchain Wallet Transfer'),
+        ('paypal', 'Paypal'),
+    )
+    
     payer = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='sent_transactions')
     payee = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='received_transactions')
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
     description = models.CharField(max_length=255)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    payment_method = models.CharField(max_length=50)
+    payment_method = models.CharField(max_length=50, choices=PAYMENET_METHOD_CHOICES)
     reference_number = models.CharField(max_length=50)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     attachments = models.FileField(upload_to='attachments/', blank=True, null=True)

@@ -6,7 +6,7 @@ from .models import Transaction
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .models import MyUser
-from .forms import RegistrationForm
+from .forms import RegistrationForm, TransactionForm
 from django.utils import timezone
 from django.http import HttpResponse
 
@@ -78,10 +78,41 @@ def admin_view(request):
     return render(request, 'admin.html', {'transactions': transactions})
 
 
-def view_all_transactions(request):
+def risk_assessment(request):
     transactions = Transaction.objects.all()
-    return render(request, 'view_all_transactions.html', {'transactions': transactions})
+    return render(request, 'risk_assessment.html', {'transactions': transactions})
 
 def user_profile_view(request):
     return render(request, "user_profile.html", {})
+
+
+def search_transactions(request):
+    query = request.GET.get('q')
+    transactions = Transaction.objects.filter(payer__email__icontains=query) | Transaction.objects.filter(payee__email__icontains=query)
+    context = {'transactions': transactions, 'query': query}
+    return render(request, 'search_transactions.html', context)
+
+
+def reports(request):
+    return render(request, 'reports.html', {})
+
+
+@login_required
+def new_transaction(request):
+    if request.method == 'POST':
+        form = TransactionForm(request.POST, request.FILES)
+        if form.is_valid():
+            transaction = form.save(commit=False)
+            transaction.payer = request.user
+            transaction.save()
+            messages.success(request, 'Transaction created successfully.')
+            return redirect('users:dashboard') # Replace 'dashboard' with the name of the view where you want to redirect after a successful transaction creation
+    else:
+        form = TransactionForm()
+    
+    context = {
+        'form': form,
+    }
+    
+    return render(request, 'new_transaction.html', context)
 
