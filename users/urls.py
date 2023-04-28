@@ -16,8 +16,13 @@ urlpatterns = [
     path('search_transactions/', views.search_transactions, name='search_transactions'),
     path('reports/', views.reports, name='reports'),
     path('new_transaction/', views.new_transaction, name='new_transaction'),
-    path('update_profile_image/', views.update_profile_image, name='update_profile_image'),
+    path('update_profile/', views.update_profile, name='update_profile'),
+    path('modify_transaction/<int:transaction_id>/', views.modify_transaction, name='modify_transaction'),
+    path('delete_transaction/<int:transaction_id>/', views.delete_transaction, name='delete_transaction'),
+    path('logout/', views.user_logout, name='logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
 
 
 

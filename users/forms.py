@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate
 from django.utils import timezone
 
@@ -32,7 +32,8 @@ class TransactionForm(forms.ModelForm):
         fields = ['payer', 'payee', 'amount', 'date', 'description', 'category', 'payment_method', 'reference_number', 'status', 'attachments']
 
 
-class UpdateProfileImageForm(forms.ModelForm):
+class UserProfileForm(UserChangeForm):
     class Meta:
         model = MyUser
-        fields = ['profile_image']
+        fields = ('first_name', 'last_name', 'email', 'date_of_birth', 'profile_image')
+        

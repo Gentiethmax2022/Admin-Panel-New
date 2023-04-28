@@ -1,16 +1,17 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Permission
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Transaction
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .models import MyUser
-from .forms import RegistrationForm, TransactionForm, UpdateProfileImageForm
+from .forms import RegistrationForm, TransactionForm, UserProfileForm
 from django.utils import timezone
 from django.http import HttpResponse
 from django.contrib.auth.models import Group
 from django.db.models import Q
+from datetime import datetime, timedelta 
 
 
 
@@ -74,10 +75,23 @@ def dashboard_view(request):
         transactions = []  # If the user has neither permission, show an empty list
 
     admin_group = Group.objects.get(name='admin_group')
+    try:
+        user_group = Group.objects.get(name='user_group')
+    except Group.DoesNotExist:
+        user_group = None
+
+    # Calculate the datetime 24 hours ago
+    time_24_hours_ago = datetime.now() - timedelta(hours=24)
+
+    # Get the user's group names
+    user_group_names = [g.name for g in user.groups.all()]
 
     context = {
         'transactions': transactions,
         'admin_group': admin_group,
+        'time_24_hours_ago': time_24_hours_ago,
+        'user_group': user_group,
+        'user_group_names': user_group_names,  # Add the user's group names to the context
     }
     return render(request, 'dashboard.html', context)
 
@@ -116,6 +130,35 @@ def search_transactions(request):
     return render(request, 'search_transactions.html', context)
 
 
+@login_required
+def modify_transaction(request, transaction_id):
+    transaction = get_object_or_404(Transaction, id=transaction_id)
+    
+    if request.method == "POST":
+        # update the transaction fields
+        transaction.description = request.POST['description']
+        transaction.status = request.POST['status']
+        if 'attachments' in request.FILES:
+            transaction.attachments = request.FILES['attachments']
+        transaction.save()
+        return redirect('users:dashboard')  # or another URL where you want to redirect the user after modification
+    
+    return render(request, 'modify_transaction.html', {'transaction': transaction})
+
+
+@login_required
+def delete_transaction(request, transaction_id):
+    transaction = get_object_or_404(Transaction, id=transaction_id)
+    
+    if request.method == "POST":
+        transaction.delete()
+        return redirect('users:dashboard')  # or another URL where you want to redirect the user after deletion
+    
+    return render(request, 'delete_transaction.html', {'transaction': transaction})
+
+
+
+
 def reports(request):
     return render(request, 'reports.html', {})
 
@@ -144,27 +187,20 @@ def home_view(request):
     return render(request, 'home.html', {})
     
 
+@login_required
 def update_profile(request):
+    user = request.user
     if request.method == 'POST':
-        form = UpdateProfileImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            request.user.profile_image = form.cleaned_data['profile_image']
-            request.user.save()
-            return redirect('users:user_profile')  # Replace 'profile' with the name of your profile view
-    else:
-        form = UpdateProfileImageForm()
-    return render(request, 'user_profile.html', {'form': form})
-
-
-def update_profile_image(request):
-    if request.method == 'POST':
-        form = UpdateProfileImageForm(request.POST, request.FILES, instance=request.user)
+        form = UserProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
             return redirect('users:user_profile')
     else:
-        form = UpdateProfileImageForm(instance=request.user)
+        form = UserProfileForm(instance=user)
+    return render(request, 'update_profile.html', {'form': form})
 
-    context = {'form': form}
-    return render(request, 'update_profile_image.html', context)
+
+def user_logout(request):
+    logout(request)
+    return redirect('users:login')
 

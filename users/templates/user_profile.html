@@ -169,22 +169,27 @@
 <body>
 
 	<nav class="navbar navbar-expand-lg bg-body-tertiary" style="height: 60px;">
-        <div class="container-fluid" style="font-size: 20px;">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <a class="nav-link" style="margin-right: 25px;" href="{% url 'users:login' %}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" style="margin-right: 25px;" href="{% url 'users:dashboard' %}">Dashboard</a>
-                  </li>
-                <li class="nav-item">
-                  <a class="nav-link disabled">Active</a>
-                </li>
-            </ul>
-            </div>
-          </div>
-        </nav>
+		<div class="container-fluid" style="font-size: 20px;">
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" style="margin-right: 25px;" href="{% url 'users:login' %}">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" style="margin-right: 25px;" href="{% url 'users:dashboard' %}">Dashboard</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled">Active</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 
 	
 		{% if "admin_group" in current_user_groups %}
@@ -202,9 +207,12 @@
 									<div class="col-sm-4 bg-c-lite-green user-profile" style="width:400px; height:80px;">
 										<div class="card-block text-center text-white">
 											<div class="m-b-25">
-												<img src="{% static 'pics/default_pics/logo_1080_1080.png' %}" class="img-radius" style="height:50px; width:50px;"alt="User Profile Image">
-		
-											</div>
+												{% if user.profile_image %}
+												  <img src="{{ user.profile_image.url }}" class="img-radius" style="height:50px; width:50px;" alt="User Profile Image">
+												{% else %}
+												  <img src="{% static 'pics/default_pics/logo_1080_1080.png' %}" class="img-radius" style="height:50px; width:50px;" alt="User Profile Image">
+												{% endif %}
+											  </div>
 											<h6 class="f-w-600">{{ user.first_name }} {{ user.last_name }}</h6>
 									
 											
@@ -246,10 +254,10 @@
 													<h6 class="text-muted f-w-400">{{ user.balance }}</h6>
 												</div>
 											</div>
-											<form action="{% url 'users:update_profile_image' %}" method="GET" >
+											<form action="{% url 'users:update_profile' %}" method="GET" >
 												{% csrf_token %}
 												{{ form.as_p }}
-												<button type="submit" class="btn btn-primary">Update Profile Image</button>
+												<button type="submit" class="btn btn-primary">Update Profile</button>
 											</form>
 										</div>
 										
@@ -361,7 +369,7 @@
 											<h6 class="text-muted f-w-400">{{ user.balance }}</h6>
 										</div>
 									</div>
-									<form action="{% url 'users:update_profile_image' %}" method="GET" >
+									<form action="{% url 'users:update_profile' %}" method="GET" >
 										{% csrf_token %}
 										{{ form.as_p }}
 										<button type="submit" class="btn btn-primary">Update Profile Image</button>
