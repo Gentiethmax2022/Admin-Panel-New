@@ -56,7 +56,8 @@
 
     <div id="form-container" style="width: 900px; background-color: lightgrey;">
     <h2 style="margin-left: 50px; margin-top: 0px; margin-bottom: 20px">Create a new transaction</h2>
-    <form method="post" style="margin-left: 30px; margin-top: 0px; margin-right: 500px; font-size: 16px;" enctype="multipart/form-data">
+    <div class="container">
+    <form method="post" style="margin-left: 30px; margin-top: 0px; margin-right: 600px; font-size: 16px;" enctype="multipart/form-data">
 
         {% csrf_token %}
         
@@ -73,7 +74,7 @@
             {{ form.payee|add_class:"form-control custom-input-width" }}
           </div>
         </div>
-        
+
         <div class="row mb-3">
           <label for="{{ form.amount.auto_id }}" class="col-sm-2 col-form-label label-padding ">Amount</label>
           <div class="col-sm-10">
@@ -103,35 +104,38 @@
           </div>
         </div>
         
-        <div class="row mb-3">
-          <label for="{{ form.payment_method.auto_id }}" class="col-sm-2 col-form-label label-padding">Payment Method</label>
-          <div class="col-sm-10">
-            {{ form.payment_method|add_class:"form-control custom-input-width" }}
-          </div>
-        </div>
-        
-        <div class="row mb-3">
-          <label for="{{ form.reference_number.auto_id }}" class="col-sm-2 col-form-label label-padding">Reference Number</label>
-          <div class="col-sm-10">
-            {{ form.reference_number|add_class:"form-control custom-input-width" }}
-          </div>
-        </div>
-        
-        <div class="row mb-3">
-          <label for="{{ form.status.auto_id }}" class="col-sm-2 col-form-label label-padding">Status</label>
-          <div class="col-sm-10">
-            {{ form.status|add_class:"form-control custom-input-width" }}
-          </div>
-        </div>
-
-        <div class="row mb-3">
-            <label for="{{ form.attachments.auto_id }}" class="col-sm-2 col-form-label label-padding">Attachments</label>
+        <div class="col-sm-6">
+          <div class="row mb-3">
+            <label for="{{ form.payment_method.auto_id }}" class="col-sm-2 col-form-label label-padding">Payment Method</label>
             <div class="col-sm-10">
-                {{ form.attachments|add_class:"form-control custom-input-width" }}
+              {{ form.payment_method|add_class:"form-control custom-input-width" }}
             </div>
-        </div>
-        
+          </div>
+      
 
+          <div class="row mb-3">
+            <label for="{{ form.reference_number.auto_id }}" class="col-sm-2 col-form-label label-padding">Reference Number</label>
+            <div class="col-sm-10">
+              {{ form.reference_number|add_class:"form-control custom-input-width" }}
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <label for="{{ form.status.auto_id }}" class="col-sm-2 col-form-label label-padding">Status</label>
+            <div class="col-sm-10">
+              {{ form.status|add_class:"form-control custom-input-width" }}
+            </div>
+          </div>
+
+          <div class="row mb-3">
+              <label for="{{ form.attachments.auto_id }}" class="col-sm-2 col-form-label label-padding">Attachments</label>
+              <div class="col-sm-10">
+                  {{ form.attachments|add_class:"form-control custom-input-width" }}
+              </div>
+          </div>
+        
+        </div>
+      </div>
         <div class="button-wrapper">
             <button type="submit" style="width: 120px; height: 50px; margin-top: 30px; background-color: lightgreen; font-weight: bold;">Submit</button>
         </div>

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
+from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser, PermissionsMixin)
 from django.utils.timezone import now   
 
 
@@ -52,7 +52,7 @@ def get_default_profile_image():
 
 
 
-class MyUser(AbstractBaseUser):
+class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="email", max_length=255, unique=True)
     date_of_birth = models.DateField()
     first_name = models.CharField(verbose_name="first name", max_length=255, blank=True)
@@ -77,7 +77,9 @@ class MyUser(AbstractBaseUser):
     
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
-        return True 
+        # Check if the user is active and has the permission
+        return self.is_active and super().has_perm(perm, obj)
+    
     
     def has_module_perms(self, app_label):
         "Does the user have permissions to view the app `app_label`?"
@@ -165,6 +167,10 @@ class Transaction(models.Model):
     def __str__(self) -> str:
         return self.description
     
+    
+class UserProfile(models.Model):
+    user =models.OneToOneField(MyUser, on_delete=models.CASCADE)
+    profile_image = models.ImageField(upload_to='profile_pictures/', default='default_pics/logo_1080_1080.png')
     
     
     

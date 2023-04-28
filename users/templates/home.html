@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" style="font-size: 32px; "href="{% url 'users:login' %}">Login</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Products <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Solutions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Company</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <a class="dropdown-item" href="#">Resources</a>
+                    <a class="dropdown-item" href="#">Developers</a>
+                    <a class="dropdown-item" href="#">Blog</a>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+
+<main role="main">
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">EtherWave</h1>
+            <h3>“For those who understand the profound implications of blockchain technology, there is no turning back.”</h3>
+            <p>Unlock Web3.
+                Build on Ethereum.
+                Collaborate worldwide.
+                
+                With our set of blockchain products, we make it easy to build applications on Ethereum and participate in DeFi, NFTs, DAOs, and the metaverse.</p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Explore our products &raquo;</a></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Decentralized Finance</h2>
+                <p>Access and engage in the DeFi ecosystem. 
+                    The Ethereum DeFi ecosystem has surpassed US$60 billion in collateral. 
+                    Cryptocurrency exchanges, funds, decentralized projects, and financial
+                    institutions seek to engage and capitalize on opportunities created by this new economic system. 
+                    </p>
+                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>ETH Staking</h2>
+                <p>Secure the Ethereum network and earn rewards for staking.
+                    We make staking secure, reliable, and accessible.
+                    We run your validators safely and effectively, so that you collect more rewards and reduce risks of slashing and downtime. </p>
+                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>NFT Experiences</h2>
+                <p>Build your Collection. Mint, sell and trade NFTs.
+
+                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            </div>
+        </div>
+
+        <hr>
+
+    </div> <!-- /container -->
+
+</main>
+
+<footer class="container">
+    <p>&copy; Company 2017-2020</p>
+</footer>
+{% endblock %}
+

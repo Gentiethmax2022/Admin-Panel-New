@@ -5,6 +5,11 @@ from django.core.exceptions import ValidationError
 from django import forms
 from .models import MyUser, Transaction
 from django.forms.fields import ImageField
+from django.contrib.auth.models import Group
+from django.contrib.auth.admin import GroupAdmin
+from .models import MyUser
+from django.contrib.admin import TabularInline
+
 
 
 class UserCreationForm(forms.ModelForm):
@@ -54,9 +59,10 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('date_of_birth', 'profile_image')}),
-        ('Permissions', {'fields': ('is_admin',)}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'date_of_birth', 'profile_image')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Site Info', {'fields': ('balance', )}),
+        ('Important dates', {'fields': ('date_joined',)}),
     )
     add_fieldsets = (
         (None, {
@@ -82,4 +88,24 @@ class TransactionAdmin(admin.ModelAdmin):
 
 admin.site.register(Transaction, TransactionAdmin)
 
+
+# Unregister the default Group admin
+admin.site.unregister(Group)
+
+class MyUserInline(TabularInline):
+    model = MyUser.groups.through
+    extra = 1
+    verbose_name = 'User'
+    verbose_name_plural = 'Users'
+    readonly_fields = ('user',)
+
+    def user(self, instance):
+        return instance.myuser.email
+    user.short_description = 'User'
+
+class CustomGroupAdmin(GroupAdmin):
+    inlines = [MyUserInline]
+
+# Register the custom Group admin
+admin.site.register(Group, CustomGroupAdmin)
 

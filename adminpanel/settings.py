@@ -62,6 +62,9 @@ TEMPLATES = [
         'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
+            'libraries': {
+                'user_tags': 'users.template_tags.user_tags',
+            },
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',

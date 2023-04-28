@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from django.utils import timezone
 
-from users.models import MyUser, Transaction
+from users.models import MyUser, Transaction, UserProfile
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=255, help_text="Required. Add a valid email address.")
@@ -32,3 +32,7 @@ class TransactionForm(forms.ModelForm):
         fields = ['payer', 'payee', 'amount', 'date', 'description', 'category', 'payment_method', 'reference_number', 'status', 'attachments']
 
 
+class UpdateProfileImageForm(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        fields = ['profile_image']
