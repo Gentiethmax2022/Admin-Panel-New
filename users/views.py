@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .models import Transaction
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .models import MyUser
+from .models import MyUser, Patient
 from .forms import RegistrationForm, TransactionForm, UserProfileForm
 from django.utils import timezone
 from django.http import HttpResponse
@@ -67,34 +67,18 @@ def register_view(request, *args, **kwargs):
 @login_required
 def dashboard_view(request):
     user = request.user
-    if user.has_perm('users.view_all_transactions'):
-        transactions = Transaction.objects.all()
-    elif user.has_perm('users.view_own_transactions'):
-        transactions = Transaction.objects.filter(Q(payer=user) | Q(payee=user))
-    else:
-        transactions = []  # If the user has neither permission, show an empty list
+
+    # Assuming all users can view patients, if there are permissions to check, add them here
+    patients = Patient.objects.all()
 
     admin_group = Group.objects.get(name='admin_group')
-    try:
-        user_group = Group.objects.get(name='user_group')
-    except Group.DoesNotExist:
-        user_group = None
-
-    # Calculate the datetime 24 hours ago
-    time_24_hours_ago = datetime.now() - timedelta(hours=24)
-
-    # Get the user's group names
-    user_group_names = [g.name for g in user.groups.all()]
 
     context = {
-        'transactions': transactions,
+        'patients': patients,
         'admin_group': admin_group,
-        'time_24_hours_ago': time_24_hours_ago,
-        'user_group': user_group,
-        'user_group_names': user_group_names,  # Add the user's group names to the context
     }
-    return render(request, 'dashboard.html', context)
 
+    return render(request, 'dashboard.html', context)
 
 
 

@@ -7,7 +7,7 @@ from .models import MyUser, Transaction
 from django.forms.fields import ImageField
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import GroupAdmin
-from .models import MyUser
+from .models import MyUser, Patient
 from django.contrib.admin import TabularInline
 
 
@@ -108,4 +108,24 @@ class CustomGroupAdmin(GroupAdmin):
 
 # Register the custom Group admin
 admin.site.register(Group, CustomGroupAdmin)
+
+
+
+class PatientAdmin(admin.ModelAdmin):
+    list_display = [
+        'name', 
+        'appointment_date', 
+        'treatment_provided', 
+        'medical_history_notes', 
+        'total_to_pay', 
+        'payment_status', 
+        'reference_number', 
+    ]
+    search_fields = ['name', 'reference_number']
+    list_filter = ['appointment_date', 'payment_status']
+
+admin.site.register(Patient, PatientAdmin)
+
+
+
 

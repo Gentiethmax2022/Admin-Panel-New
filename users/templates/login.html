@@ -1,81 +1,122 @@
 {% load static %}
-{% comment %} {% load url %} {% endcomment %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Login</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
-	<style>
-		.full-height {
-			height: 100vh;
-		}
-		.card-container {
-			position: relative;
-			top: -50px; 
-			left: -70px;
-			width: 500px 
-		}
-	</style>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+    <style>
+        .card-container {
+            position: relative;
+            width: 500px;
+        }
+        .image-text-container {
+            margin-bottom: 200px;
+        }
+        .image-text-container img {
+            margin-bottom: 20px;
+        }
+
+        .content-container {
+            background-image: url('{% static "pics/loca_dental_clinic.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .image-text-container {
+            position: relative;
+            top: 350px; 
+        }
+        .card-container {
+            position: relative;
+            top: 0px;
+            left: 25px;
+        }
+        .main-container {
+            background-color: red;
+        }
+        
+
+    </style>
 </head>
-<body>
-	<nav class="navbar bg-body-tertiary">
-		<div class="container-fluid">
-		  <span class="navbar-text" style="height: 80px;">
-			<span class="nav-item" style="margin-right: 40px; font-size: 25px;">Unlock Web3</span>
-			<span class="nav-item" style="margin-right: 40px; font-size: 25px;">Transfer on Ethereum</span>
-			<span class="nav-item" style="margin-right: 40px; font-size: 25px;">Collaborate worldwide</span>
-		  </span>
-		</div>
-	  </nav>
-	  
-	
-	<div class="container-fluid full-height">
-		<div class="row full-height" style="margin-top: 5px;">
-			<div class="col-md-6 d-flex justify-content-center align-items-center" style="width: 600px; padding-top:0;">
-				<div style="margin-bottom: 200px;">
-				<h4 style="border-style: inset; padding: 15px; background-color: lightgrey;">Ethereum is the community-run technology powering the cryptocurrency ether (ETH) and thousands of decentralized applications</h4>
-				<img src="{% static 'pics/ethereum_logo.jpg' %}" alt="login form" class="img-fluid">
-				</div>
-			</div>
-				<div class="col-md-6 d-flex justify-content-center align-items-center" style="width: 850px;">
-					<div class="card-container">
-						<div class="card">
-							<div class="card-body" style="padding-top: 0px; margin-top: 0px;">
-								<form method="post">
-								{% csrf_token %}
-
-									<h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; font-size: 25px; margin-top: 25px;">  Sign into your account</h5>
-
-										<div class="form-outline">
-										<label class="form-label" for="id_username" style="margin-top: 15px;">Email address</label>
-										<input type="email" id="id_username" name="username" class="form-control form-control-lg">
-										</div>
-
-										<div class="form-outline">
-										<label class="form-label" for="id_password" style="margin-top: 15px;">Password</label>
-										<input type="password" id="id_password" name="password" class="form-control form-control-lg">
-										</div>
-
-										<div class="pt-1 mb-4">
-										<button class="btn btn-dark btn-lg btn-block" style="margin-top: 20px;" type="submit">Login</button>
-										</div>
-										<div class="form-check mb-3">
-										<input class="form-check-input" type="checkbox" id="remember" name="remember">
-										<label class="form-check-label" for="remember">
-											Remember me
-										</label>
-										</div>
-									
-										<p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="/register/" style="color: #393f81;">Register here</a></p>
-										<a href="#!" class="small text-muted">Terms of use.</a>
-										<a href="#!" class="small text-muted">Privacy policy</a>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<body style="background-color: rgb(232, 255, 245);">
+    <nav class="navbar" style="background-color: rgb(232, 255, 245);">
+        <div class="container-fluid d-flex align-items-center justify-content-start" style="height: 100px;">
+            <div class="nav-item" style="margin-right: 80px; font-size: 25px;">
+                Welcome !
+                <small style="display: block; font-size: 14px;">Your gateway to personalized dental care!</small>
+            </div>
+            <div class="nav-item" style="margin-right: 80px; font-size: 25px;">
+                Secure Login
+                <small style="display: block; font-size: 14px;">Manage your dental health with confidence.</small>
+            </div>
+            <div class="nav-item" style="font-size: 25px;">
+                Join Our Community!
+                <small style="display: block; font-size: 14px;">Log in for a brighter, healthier smile!</small>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container-fluid content-container">
+        <div class="row" style="margin-bottom: 10px;">
+            <div class="col-md-6 d-flex justify-content-start align-items-start background-image" style="margin-top: 0px; border-radius: 20px;">
+                <div class="image-text-container">
+                    <h4 style="padding: 15px; font-size: 18px; font-weight: normal; width: 1000px; margin-left: 50px; border-radius: 20px;">
+                        <span style="background-color: rgb(62, 180, 137);">Opened by Dr. Joni Loka, Loka Dental Clinic has been at the forefront of dental healthcare, providing exceptional services to a diverse clientele. Dr. Loka, a distinguished practitioner, brings with him a wealth of knowledge and expertise from his extensive education and experience in the field.<br><br></span>
+                        
+                        <span style="background-color: rgb(62, 180, 137);">Holding several qualifications, Dr. Loka has refined his skills and expanded his knowledge, earning a Master’s degree in Dental Surgery from a renowned institution in Italy.</span>
+                        
+                        <span style="background-color: rgb(62, 180, 137);">His passion for delivering unparalleled dental care has been the cornerstone of our clinic, ensuring that we offer innovative and effective dental solutions tailored to meet the unique needs of every patient.<br><br></span>
+                        
+                        <span style="background-color: rgb(62, 180, 137);">At Loka Dental Clinic, we are dedicated to creating beautiful and healthy smiles in a welcoming and compassionate environment. Our state-of-the-art facilities, combined with a team of highly skilled professionals, allow us to provide a wide array of dental services, from routine check-ups to advanced surgical procedures.</span><span></span><br>
+                        
+                        <span style="background-color: rgb(62, 180, 137);">Join us on a journey to optimal oral health and experience the profound implications of a beautiful smile.<br><br></span>
+                        
+                    </h4>
+                </div>
+            </div>
+            
+            
+            <div class="col-md-6 d-flex justify-content-center align-items-start">
+                <div class="card-container">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                            
+                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; font-size: 25px; margin-top: 35px;">  Sign into your account</h5>
+                            
+                                        <div class="form-outline">
+                                        <label class="form-label" for="id_username" style="margin-top: 25px;">Email address</label>
+                                        <input type="email" id="id_username" name="username" class="form-control form-control-lg">
+                                        </div>
+                            
+                                        <div class="form-outline">
+                                        <label class="form-label" for="id_password" style="margin-top: 25px;">Password</label>
+                                        <input type="password" id="id_password" name="password" class="form-control form-control-lg">
+                                        </div>
+                            
+                                        <div class="pt-1 mb-4">
+                                        <button class="btn btn-dark btn-lg btn-block" style="margin-top: 30px;" type="submit">Login</button>
+                                        </div>
+                                        <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                        <label class="form-check-label" for="remember">
+                                            Remember me
+                                        </label>
+                                        </div>
+                                    
+                                        <p class="mb-5 pb-lg-2" style="color: rgb(62, 180, 137); margin-top: 57px;">Don't have an account? <a href="/register/" style="color: rgb(62, 180, 137);">Register here</a></p>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+
+

@@ -19,7 +19,7 @@
                 <li class="nav-item">
                   <a class="nav-link active" aria-current="page" style="margin-right: 30px;"href="{% url 'users:user_profile' %}">
                     <img style="margin-bottom: 7px; margin-right: 10px;"src="{% static 'pics/default_pics/logo_1080_1080.png' %}" alt="Profile Picture" class="rounded-circle" width="40" height="40">
-                    User Profile
+                    Patient Profile
                   </a>
 
                 </li>
@@ -47,25 +47,24 @@
 
         <div class="wrapper rounded">
             {% if admin_group in user.groups.all %}
-            <a href="{% url 'users:risk_assessment' %}" class="btn btn-primary" style="margin-top: 30px;">Risk assessment</a>
+            <!-- <a href="{% url 'users:risk_assessment' %}" class="btn btn-primary" style="margin-top: 30px;">Risk assessment</a> -->
         {% endif %}
         
         {% if admin_group in user.groups.all %}
-        <a href="{% url 'users:reports' %}" class="btn btn-primary" style="margin-top: 30px;">Reports</a>
+        <!-- <a href="{% url 'users:reports' %}" class="btn btn-primary" style="margin-top: 30px;">Reports</a> -->
         {% endif %}
 
             <div class="table-responsive mt-3">
                 <table class="table table-dark table-borderless">
                     <thead>
                         <tr>
-                            <th scope="col">Description</th>
-                            <th scope="col">Payer</th>
-                            <th scope="col">Payee</th>
-                            <th scope="col">Payment Method</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Category</th>
+                            <th scope="col">Patient Name</th>
+                            <th scope="col">Appointment Date</th>
+                            <th scope="col">Treatment Provided</th>
+                            <th scope="col">Medical History/Notes</th>
+                            <th scope="col">Total to Pay</th>
+                            <th scope="col">Payment Status</th>
                             <th scope="col">Reference Number</th>
-                            <th scope="col">Status</th>
                             <th scope="col">Attachments</th>
                             <th scope="col" class="text-right">Amount</th>
                             <th scope="col">Modify</th>
@@ -73,58 +72,39 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for transaction in transactions %}
-                        <tr>
-                            <td scope="row">
-                                <span class="fa fa-exchange mr-1"></span> {{ transaction.description }}
-                            </td>
-                            <td>{{ transaction.payer.email }}</td>
-                            <td>{{ transaction.payee.email }}</td>
-                            <td>{{ transaction.payment_method }}</td>
-                            <td class="text-white">{{ transaction.date }}</td>
-                            <td>{{ transaction.category|title }}</td>
-                            <td>{{ transaction.reference_number }}</td>
-                            <td>{{ transaction.status|title }}</td>
-                            <td>
-                                {% if transaction.attachments %}
-                                    <a href="{{ transaction.attachments.url }}" target="_blank">View</a>
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </td>
-                            <td class="d-flex justify-content-end align-items-center" style="background-color: #000;">
-
-
-                                {% if transaction.category == 'income' %}
-                                    <span class="fa fa-long-arrow-down mr-1"></span>
-                                {% else %}
-                                    <span class="fa fa-long-arrow-up mr-1"></span>
-                                {% endif %}
-                                ${{ transaction.amount }}
-                            </td>
-                            <td>
-                                {% if user_group.name in user_group_names and transaction.date|date:"Y-m-d" >= time_24_hours_ago or admin_group.name in user_group_names %}
-                                    <a href="{% url 'users:modify_transaction' transaction.id %}" class="btn btn-primary">Modify</a>
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if user_group.name in user_group_names and transaction.date|date:"Y-m-d" >= time_24_hours_ago or admin_group.name in user_group_names %}
-                                    <form method="POST" action="{% url 'users:delete_transaction' transaction.id %}">
+                        {% for patient in patients %}
+                            <tr>
+                                <td scope="row">{{ patient.name }}</td>
+                                <td>{{ patient.appointment_date }}</td>
+                                <td>{{ patient.treatment_provided }}</td>
+                                <td>{{ patient.medical_history_notes }}</td>
+                                <td>${{ patient.total_to_pay }}</td>
+                                <td>{{ patient.payment_status }}</td>
+                                <td>{{ patient.reference_number }}</td>
+                                <td style="color: #ffffff;">
+                                    {% if patient.attachments %}
+                                        <a href="{{ patient.attachments.url }}" target="_blank" style="color: #ffffff;">View</a>
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </td>
+                                
+                                <td class="d-flex justify-content-end align-items-center" style="background-color: #fcfafa; color: red">
+                                    ${{ patient.amount_paid }}
+                                </td>
+                                <td>
+                                    <a href="{% url 'users:modify_transaction' patient.id %}" class="btn btn-primary" style="background-color: rgb(62, 180, 137);">Modify</a>
+                                </td>
+                                <td>
+                                    <form method="POST" action="{% url 'users:delete_transaction' patient.id %}">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                            </td>
-                            
-                            
-                            
-                        </tr>
+                                </td>
+                            </tr>
                         {% endfor %}
                     </tbody>
+                    
                 </table>
             </div>
         </div>

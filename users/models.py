@@ -167,6 +167,30 @@ class Transaction(models.Model):
     def __str__(self) -> str:
         return self.description
     
+
+class Patient(models.Model):
+    name = models.CharField(max_length=255)
+    appointment_date = models.DateTimeField()
+    treatment_provided = models.TextField()
+    medical_history_notes = models.TextField(blank=True, null=True)
+    total_to_pay = models.DecimalField(max_digits=10, decimal_places=2)
+    PAYMENT_STATUS_CHOICES = [
+        ('Unpaid', 'Unpaid'),
+        ('Partially Paid', 'Partially Paid'),
+        ('Paid', 'Paid'),
+    ]
+    payment_status = models.CharField(
+        max_length=15,
+        choices=PAYMENT_STATUS_CHOICES,
+        default='Unpaid',
+    )
+    reference_number = models.CharField(max_length=255)
+    attachments = models.FileField(upload_to='attachments/', blank=True, null=True)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    
+    def __str__(self):
+        return self.name
+    
     
 class UserProfile(models.Model):
     user =models.OneToOneField(MyUser, on_delete=models.CASCADE)

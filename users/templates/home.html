@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %} <!-- Load the static tag -->
+
 {% block title %} Home {% endblock %}
 
 {% block content %}
@@ -23,11 +25,11 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Company</a>
+                    aria-expanded="false">Clinic</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="#">Resources</a>
-                    <a class="dropdown-item" href="#">Developers</a>
-                    <a class="dropdown-item" href="#">Blog</a>
+                    <a class="dropdown-item" href="#">Employees</a>
+                    <a class="dropdown-item" href="#">Social Media</a>
                 </div>
             </li>
         </ul>
@@ -38,44 +40,41 @@
     </div>
 </nav>
 
-<main role="main">
+<div class="background-wrapper"
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
+    <main role="main" class="container">
+    <div class="jumbotron" style="margin-top: 50px; margin-right: 600px;">
         <div class="container">
-            <h1 class="display-3">EtherWave</h1>
-            <h3>“For those who understand the profound implications of blockchain technology, there is no turning back.”</h3>
-            <p>Unlock Web3.
-                Build on Ethereum.
-                Collaborate worldwide.
-                
-                With our set of blockchain products, we make it easy to build applications on Ethereum and participate in DeFi, NFTs, DAOs, and the metaverse.</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Explore our products &raquo;</a></p>
+            <h1 class="display-3">Loka Dental Clinic</h1>
+            <h3>“For those who understand the profound implications of a beautiful smile, there is no turning back.”</h3>
+            <p>At our dental clinic, we believe in the transformative power of a radiant smile. 
+            A beautiful smile is not just a reflection of healthy teeth, but a beacon of confidence, positivity, and well-being. 
+            It is the universal language of joy, the key to making unforgettable first impressions, and a symbol of the vitality 
+            within</p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="#" role="button" style="background-color: rgb(62, 180, 137);">Explore our products &raquo;</a>
+            </p>
+            
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="margin-left: 50px; margin-top: 30px;">
         <!-- Example row of columns -->
         <div class="row">
             <div class="col-md-4">
-                <h2>Decentralized Finance</h2>
-                <p>Access and engage in the DeFi ecosystem. 
-                    The Ethereum DeFi ecosystem has surpassed US$60 billion in collateral. 
-                    Cryptocurrency exchanges, funds, decentralized projects, and financial
-                    institutions seek to engage and capitalize on opportunities created by this new economic system. 
+                <h2>Dental Exams and Cleanings</h2>
+                <p>Routine check-ups for assessing overall oral health, cleaning teeth to remove plaque and tartar, and polishing 
                     </p>
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
             </div>
             <div class="col-md-4">
-                <h2>ETH Staking</h2>
-                <p>Secure the Ethereum network and earn rewards for staking.
-                    We make staking secure, reliable, and accessible.
-                    We run your validators safely and effectively, so that you collect more rewards and reduce risks of slashing and downtime. </p>
+                <h2>Dental Crowns and Bridges</h2>
+                <p>Prosthetic devices fixed onto existing teeth or implants to cover a damaged tooth or replace a missing tooth, respectively. </p>
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
             </div>
             <div class="col-md-4">
-                <h2>NFT Experiences</h2>
-                <p>Build your Collection. Mint, sell and trade NFTs.
+                <h2>Dental Implants</h2>
+                <p>Surgical component that interfaces with the bone of the jaw to support a dental prosthesis such as a crown, bridge, denture
 
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
             </div>
@@ -87,8 +86,10 @@
 
 </main>
 
-<footer class="container">
-    <p>&copy; Company 2017-2020</p>
+<footer class="container" style="margin-top: 100px; margin-left: 50px;">
+    <p>&copy; Clinic 2020 - now</p>
 </footer>
+
+</div>
 {% endblock %}
 
